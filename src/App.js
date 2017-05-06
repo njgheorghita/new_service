@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Panel, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 import Web3 from 'web3';
 var ens = require('./ensutils.js').ENS;
@@ -19,23 +20,27 @@ class App extends Component {
                   ownerAddress: '',
                   //TODO: Take this attribute out. Just a hello world for hitting the server
                   helloTarget: ''};
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
     this.setState({value: event.target.value});
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    this.setState({ownerAddress: getContractOwner(this.state.value)})
-    // this.props.getBookData(this.state.value);
-    // this.setState({value: ''});
+  handleKeyDown(event) {
+    if(event.key === 'Enter') {
+      this.setState({
+        ownerAddress: getContractOwner(event.target.value),
+        value: ''
+      });
 
-    //This is just an example way to hit our express server running on port 3001.
-    //TODO: Take this out once we build fetching of rainbow tables etc
+      //TODO: Take this out
+      this.fetchHelloTarget();
+    }
+  }
+
+  //This is just an example way to hit our express server running on port 3001.
+  //TODO: Take this out once we build fetching of rainbow tables etc
+  fetchHelloTarget() {
     fetch('/hello')
       .then(res => res.json())
       .then(resp => this.setState({ helloTarget: resp.helloTarget }) );
@@ -43,16 +48,28 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <form onSubmit={this.handleSubmit}>
-          <label>Enter address: </label>
-          <input type="name" value={this.state.value} onChange={this.handleChange} />
-          <input type="submit" value="Submit" />
-        </form>
-        <p>Owner Address: {this.state.ownerAddress}</p>
-        <p>Hello: {this.state.helloTarget ? this.state.helloTarget : "Noone yet"}</p>
-        {/*<Button onPress={onButtonPress} title="button"/>*/}
+      <div>
+        <Panel header='Get ENS info'>
+
+          <FormGroup>
+            <ControlLabel>Enter Address: </ControlLabel>
+              <FormControl
+                type="text"
+                value={this.state.value}
+                placeholder="Enter domain name"
+                onChange={this.handleChange.bind(this)}
+                onKeyDown={this.handleKeyDown.bind(this)}
+              />
+          </FormGroup>
+
+          <p>Owner Address: {this.state.ownerAddress}</p>
+        </Panel>
+
+        <Panel header='hello world test'>
+          <p>Hello: {this.state.helloTarget ? this.state.helloTarget : "Noone yet"}</p>
+        </Panel>
       </div>
+
     );
   }
 }
