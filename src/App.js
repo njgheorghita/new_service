@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Panel, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
-import Web3 from 'web3';
-var ens = require('./ensutils.js').ENS;
+import ENSClient from './ensClient';
 
-var ETHEREUM_CLIENT = new Web3(new Web3.providers.HttpProvider(`https://mainnet.infura.io/xRsYoyjxnWPw537pet38`))
-var instance = new ens(ETHEREUM_CLIENT)
+var instance = new ENSClient();
 
 function getContractOwner(contractName){
     // return instance.ens.owner(instance.namehash(contractName))
