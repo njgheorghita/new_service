@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 
-import { ensContractABI, auctionRegistrarContractABI, deedContractABI, fifsRegistrarABI, resolverContractABI, reverseRegistrarContractABI } from './abiDefs';
+import { ensContractABI, auctionRegistrarContractABI, /*deedContractABI, fifsRegistrarABI,*/ resolverContractABI, /*reverseRegistrarContractABI */} from './abiDefs';
 
 const INFURA_URL = 'https://mainnet.infura.io/xRsYoyjxnWPw537pet3';
 
@@ -14,12 +14,15 @@ class ENSClient {
     let auctionRegistrarContract = this.web3.eth.contract(auctionRegistrarContractABI);
     this.ethRegistrar = auctionRegistrarContract.at(this.ens.owner(this.namehash('eth')));
 
-    this.deedContract = this.web3.eth.contract(deedContractABI);
-    this.fifsRegistrarContract = this.web3.eth.contract(fifsRegistrarABI);
-    this.testRegistrar = this.fifsRegistrarContract.at(this.ens.owner(this.namehash('test')));
+    // let deedContract = this.web3.eth.contract(deedContractABI);
+
+    // let fifsRegistrarContract = this.web3.eth.contract(fifsRegistrarABI);
+    // let testRegistrar = fifsRegistrarContract.at(this.ens.owner(this.namehash('test')));
+
     this.resolverContract = this.web3.eth.contract(resolverContractABI);
-    this.publicResolver = this.resolverContract.at('0x4c641fb9bad9b60ef180c31f56051ce826d21a9a');
-    this.reverseRegistrarContract = this.web3.eth.contract(reverseRegistrarContractABI);
+    // let publicResolver = this.resolverContract.at('0x4c641fb9bad9b60ef180c31f56051ce826d21a9a');
+
+    // let reverseRegistrarContract = this.web3.eth.contract(reverseRegistrarContractABI);
     // var reverseRegistrar = this.reverseRegistrarContract.at(this.ens.owner(this.namehash('addr.reverse')));
   }
 
