@@ -3,17 +3,12 @@ import { Panel, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 import ENSClient from './ensClient';
 
-var instance = new ENSClient();
-
-function getContractOwner(contractName){
-    // return instance.ens.owner(instance.namehash(contractName))
-    console.log(instance.getAddr(contractName))
-    return instance.ethRegistrar.entries(instance.web3.sha3(contractName))[0].toNumber()
-  }
-
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this.ensClient = new ENSClient();
+
     this.state = {value: '',
                   ownerAddress: '',
                   //TODO: Take this attribute out. Just a hello world for hitting the server
@@ -27,7 +22,7 @@ class App extends Component {
   handleKeyDown(event) {
     if(event.key === 'Enter') {
       this.setState({
-        ownerAddress: getContractOwner(event.target.value),
+        ownerAddress: this.ensClient.getContractOwner(event.target.value),
         value: ''
       });
 

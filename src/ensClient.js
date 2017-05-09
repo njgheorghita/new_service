@@ -23,6 +23,10 @@ class ENSClient {
     // var reverseRegistrar = this.reverseRegistrarContract.at(this.ens.owner(this.namehash('addr.reverse')));
   }
 
+  getContractOwner(contractName) {
+    return this.ethRegistrar.entries(this.web3.sha3(contractName))[0].toNumber();
+  }
+
   namehash(name) {
     var node = '0x0000000000000000000000000000000000000000000000000000000000000000';
     if(name !== '') {
